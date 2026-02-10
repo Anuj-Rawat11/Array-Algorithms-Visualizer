@@ -84,8 +84,14 @@ const bubbleButton = document.querySelector("button#bubble");
 const selectionButton = document.querySelector("button#selection");
 const insertionButton = document.querySelector("button#insertion");
 const pass = document.getElementById("pass");
+const comparison = document.getElementById("comparison");
 // console.log(button);
 // var counter = 0;
+
+
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 function createArray() {
   values.forEach((e, index) => {
@@ -99,3 +105,158 @@ function createArray() {
     array.appendChild(element);
   });
 }
+
+
+function moveElement(i) {
+  const prom = new Promise(function (resolve, reject) {
+    // console.log(elements[i]);
+    // console.log(elements[i]);
+    const animspeed = Number(speed.value);
+    const elements = document.querySelectorAll(".elements");
+    // elements[i].classList.add("compare");
+    // elements[j].classList.add("compare");
+    setTimeout(function () {
+      elements[i + 1].style.height = `${values[i]}px`;
+      elements[i + 1].style.backgroundColor = colors[i];
+      elements[i + 1].innerText = `${values[i]}`;
+
+      values[i + 1] = values[i];
+      colors[i + 1] = colors[i];
+
+      // temp = values[i];
+      // values[i] = values[j];
+      // values[j] = temp;
+
+      // temp = colors[i];
+      // colors[i] = colors[j];
+      // colors[j] = temp;
+
+      resolve("");
+      // elements[i].classList.remove("compare");
+      // elements[j].classList.remove("compare");
+    }, speed.value);
+  });
+  return prom;
+}
+function swapElement(i, j) {
+  const prom = new Promise(function (resolve, reject) {
+    // console.log(elements[i]);
+    // console.log(elements[i]);
+    const animspeed = Number(speed.value);
+    const elements = document.querySelectorAll(".elements");
+    elements[i].classList.add("compare");
+    elements[j].classList.add("compare");
+    setTimeout(function () {
+      elements[i].style.height = `${values[j]}px`;
+      elements[i].style.backgroundColor = colors[j];
+      elements[i].innerText = `${values[j]}`;
+
+      elements[j].style.height = `${values[i]}px`;
+      elements[j].style.backgroundColor = colors[i];
+      elements[j].innerText = `${values[i]}`;
+
+      temp = values[i];
+      values[i] = values[j];
+      values[j] = temp;
+
+      temp = colors[i];
+      colors[i] = colors[j];
+      colors[j] = temp;
+
+      resolve("");
+      elements[i].classList.remove("compare");
+      elements[j].classList.remove("compare");
+    }, speed.value);
+  });
+  return prom;
+}
+
+// async function swapE(index) {
+//   await swapElement(index);
+// }
+
+function clearArray() {
+  array.replaceChildren();
+}
+
+newarr.addEventListener("click", function () {
+  pass.innerText = `Pass : `;
+  const size = document.getElementById("size");
+  if (valueSet.size != 0) {
+    clearArray();
+    valueSet.clear();
+    colorset.clear();
+  }
+  while (valueSet.size != Number(size.value)) {
+    valueSet.add(Math.floor(Math.random() * (300 - 50 + 1)) + 50);
+  }
+  values = [...valueSet];
+  while (colorset.size != Number(size.value)) {
+    randomColorName = colorpool[Math.floor(Math.random() * colorpool.length)];
+    colorset.add(randomColorName);
+  }
+  colors = [...colorset];
+  createArray();
+});
+
+bubbleButton.addEventListener("click", async () => {
+  const elements = document.querySelectorAll(".elements");
+  // pass.style.color = "black";
+  for (var i = 0; i < values.length - 1; i++) {
+    pass.innerText = `Pass : ${i + 1}`;
+    for (var j = 0; j < values.length - i - 1; j++) {
+      comparison.innerText = `Comparing A[${j}] with A[${j+1}]`;
+      await delay(100);
+      if (values[j] > values[j + 1]) {
+        console.log(values[j], values[j + 1]);
+        await swapElement(j, j + 1);
+      }
+    }
+  }
+  elements.forEach(function (element) {
+    element.style.backgroundColor = "green";
+  });
+});
+
+selectionButton.addEventListener("click", async () => {
+  for (var i = 0; i < values.length - 1; i++) {
+    pass.innerText = `Pass : ${i + 1}`;
+    var tindex = i;
+    for (var j = i + 1; j < values.length; j++) {
+      comparison.innerText = `Comparing A[${tindex}] with A[${j}]`;
+      if (values[tindex] > values[j]) {
+        tindex = j;
+      }
+    }
+    await swapElement(i, tindex);
+  }
+});
+
+insertionButton.addEventListener("click", async () => {
+  var i = 1;
+  const elements = document.querySelectorAll(".elements");
+  while (i < values.length) {
+    pass.innerText = `Pass : ${i}`;
+    j = i - 1;
+
+    const tempValue = values[i];
+    const tempColor = colors[i];
+    console.log(values, j >= 0 && tempValue < values[j]);
+    while (j >= 0 && tempValue < values[j]) {
+      // console.log("In the loop...");
+       
+      await moveElement(j);
+      j--;
+    }
+    elements[j + 1].style.height = `${tempValue}px`;
+    elements[j + 1].style.backgroundColor = tempColor;
+    elements[j + 1].innerText = `${tempValue}`;
+    values[j + 1] = tempValue;
+    colors[j + 1] = tempColor;
+    i++;
+  }
+});
+
+
+
+
