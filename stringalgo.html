@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>String Algorithms Visualizer</h1>
+    <div class="visualizer">
+      <div class="display">
+        <div class="inputdet">
+          <div class="inputs">
+            <span> Enter the main string :</span>
+            <input type="text" id="mainstring" value="Mainstring" />
+          </div>
+          <div class="inputs">
+            <span> Enter the substring :</span>
+            <input type="text" id="substring" value="Substring" />
+          </div>
+          <div class="inputs">
+            <span> Speed of animation :</span>
+            <input type="number" id="speed" value="1000" min="100" max="2000" />
+          </div>
+
+          <!-- <div class="genbtn">
+            <button id="newarr">Generate new string</button>
+          </div> -->
+        </div>
+        <div class="btn">
+          <button id="brute">Brute Force</button>
+          <button id="kmp">KMP Algo</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="string">
+          <div ><h1 id="out">Finding substring...</h1></div>
+          <div><h1 id="displaymain">Mainstring</h1><div class="underline"></div></div>
+          <div><h1 id="displaysub">Substring</h1><div class="underline"></div></div>
+          <div id="dislps"></div>
+          <!-- <div class="elements"></div>
+        <div class="elements"></div>
+        <div class="elements"></div>
+        <div class="elements"></div>
+        <div class="elements"></div> -->
+        </div>
+      </div>
+    </div>
+    <script src="script2.js"></script>
+  </body>
+</html>
