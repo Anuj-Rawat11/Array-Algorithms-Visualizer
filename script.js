@@ -386,3 +386,6 @@ binaryButton.addEventListener("click", async () => {
 
   result.innerText = "Search Unsuccessful...";
 });
+
+
+
