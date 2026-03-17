@@ -11,6 +11,10 @@ body {
 
 }
 
+#link{
+    font-size: 24px;
+    color:red;
+}
 .array {
     display: flex;
     height: 65vh;
