@@ -37,6 +37,8 @@ const colorpool = [
 
 let colorset = new Set();
 
+let btnmode = document.getElementsByClassName("btnmode");
+btnmode = [...btnmode];
 const newarr = document.getElementById("newarr");
 const newarr2 = document.getElementById("newarr2");
 const speed = document.getElementById("speed");
@@ -179,50 +181,39 @@ function swapElement(i, j) {
   return prom;
 }
 
-function sortArray(){
-
-const elements=document.getElementsByClassName("elements");
-for (var i = 0; i < values2.length - 1; i++) {
-
+function sortArray() {
+  const elements = document.getElementsByClassName("elements");
+  for (var i = 0; i < values2.length - 1; i++) {
     for (var j = 0; j < values2.length - i - 1; j++) {
       if (values2[j] > values2[j + 1]) {
-       
+        elements[j + 1].style.height = `${values2[j]}px`;
+        elements[j + 1].style.backgroundColor = colors2[j];
+        elements[j + 1].innerText = `${values2[j]}`;
+        elements[j].style.height = `${values2[j + 1]}px`;
+        elements[j].style.backgroundColor = colors2[j + 1];
+        elements[j].innerText = `${values2[j + 1]}`;
 
-  elements[j + 1].style.height = `${values2[j]}px`;
-      elements[j + 1].style.backgroundColor = colors2[j];
-      elements[j + 1].innerText = `${values2[j]}`;
-  elements[j].style.height = `${values2[j+1]}px`;
-      elements[j].style.backgroundColor = colors2[j+1];
-      elements[j].innerText = `${values2[j+1]}`;
+        // values2[j + 1] = values2[j];
+        // colors2[j + 1] = colors2[j];
 
-      // values2[j + 1] = values2[j];
-      // colors2[j + 1] = colors2[j];
+        // values2[j + 1] = values2[j];
+        // colors2[j + 1] = colors2[j];
 
-      // values2[j + 1] = values2[j];
-      // colors2[j + 1] = colors2[j];
+        temp = values2[j];
+        values2[j] = values2[j + 1];
+        values2[j + 1] = temp;
 
-      temp = values2[j];
-      values2[j] = values2[j+1];
-      values2[j+1] = temp;
+        temp = colors2[j];
+        colors2[j] = colors2[j + 1];
+        colors2[j + 1] = temp;
 
-      temp = colors2[j];
-      colors2[j] = colors2[j+1];
-      colors2[j+1] = temp;
-
-      // resolve("");
-      // elements[i].classList.remove("compare");
-      // elements[j].classList.remove("compare");
-    }
-
-        
+        // resolve("");
+        // elements[i].classList.remove("compare");
+        // elements[j].classList.remove("compare");
       }
     }
   }
-
-
-
-
-  
+}
 
 // async function swapE(index) {
 //   await swapElement(index);
@@ -279,7 +270,12 @@ newarr2.addEventListener("click", function () {
 });
 
 bubbleButton.addEventListener("click", async () => {
-  const elements = document.querySelectorAll(".elements");
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
+  
   // pass.style.color = "black";
   for (var i = 0; i < values.length - 1; i++) {
     pass.innerText = `Pass : ${i + 1}`;
@@ -292,12 +288,20 @@ bubbleButton.addEventListener("click", async () => {
       }
     }
   }
-  elements.forEach(function (element) {
-    element.style.backgroundColor = "green";
+
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.style.opacity = "1";
   });
 });
 
 selectionButton.addEventListener("click", async () => {
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
   for (var i = 0; i < values.length - 1; i++) {
     pass.innerText = `Pass : ${i + 1}`;
     var tindex = i;
@@ -309,9 +313,19 @@ selectionButton.addEventListener("click", async () => {
     }
     await swapElement(i, tindex);
   }
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.style.opacity = "1";
+  });
 });
 
 insertionButton.addEventListener("click", async () => {
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
   var i = 1;
   const elements = document.querySelectorAll(".elements");
   while (i < values.length) {
@@ -334,10 +348,20 @@ insertionButton.addEventListener("click", async () => {
     colors[j + 1] = tempColor;
     i++;
   }
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.style.opacity = "1";
+  });
 });
 
 linearButton.addEventListener("click", async () => {
-  const animspeed=Number(speed2.value);
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
+  const animspeed = Number(speed2.value);
   const elements = document.querySelectorAll(".elements");
   result.innerText = "Result : ";
   comparison2.innerText = "Comparing";
@@ -348,44 +372,59 @@ linearButton.addEventListener("click", async () => {
     await delay(animspeed);
     if (values2[i] === Number(search.value)) {
       result.innerText = "Search Successful...";
+      btnmode.forEach(function (btn) {
+        btn.disabled = false;
+      });
       return;
     }
     elements[i].style.backgroundColor = `${tempcolor}`;
   }
   result.innerText = "Search Unsuccessful...";
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+     btn.style.opacity = "1";
+  });
 });
 
 binaryButton.addEventListener("click", async () => {
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
   sortArray();
-  const animspeed=Number(speed2.value);
+  const animspeed = Number(speed2.value);
   await delay(200);
   const elements = document.querySelectorAll(".elements");
   result.innerText = "Result : ";
- comparison2.innerText = "Comparing ";
+  comparison2.innerText = "Comparing ";
   let start, end, mid;
   start = 0;
   end = values2.length - 1;
   while (start <= end) {
-    mid = Math.floor((start + end) / 2); 
+    mid = Math.floor((start + end) / 2);
     comparison2.innerText = ` Comparing A[${mid}] with ${Number(search.value)}`;
-       const tempcolor = colors2[mid];
-    elements[mid].style.backgroundColor="gray";
+    const tempcolor = colors2[mid];
+    elements[mid].style.backgroundColor = "gray";
     await delay(animspeed);
     if (values2[mid] === Number(search.value)) {
       result.innerText = "Search Successful...";
-      elements[mid].style.backgroundColor=tempcolor;
+      elements[mid].style.backgroundColor = tempcolor;
       return;
     } else if (values2[mid] > Number(search.value)) {
       end = mid - 1;
-      elements[mid].style.backgroundColor=tempcolor;
+      elements[mid].style.backgroundColor = tempcolor;
     } else {
       start = mid + 1;
-      elements[mid].style.backgroundColor=tempcolor;
+      elements[mid].style.backgroundColor = tempcolor;
     }
   }
 
   result.innerText = "Search Unsuccessful...";
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+     btn.style.opacity = "1";
+  });
 });
-
-
-
