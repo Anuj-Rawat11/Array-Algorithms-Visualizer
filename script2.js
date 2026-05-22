@@ -9,6 +9,8 @@ const kmp = document.getElementById("kmp");
 const underline = document.getElementsByClassName("underline");
 const out = document.getElementById("out");
 const dislps = document.getElementById("dislps");
+let btnmode = document.getElementsByClassName("btnmode");
+btnmode = [...btnmode];
 // console.dir(mainstring);
 // console.log(mainstring.innerHTML);
 mainstring.addEventListener("keyup", function (e) {
@@ -23,6 +25,11 @@ function delay(ms) {
 }
 brute.addEventListener("click", async () => {
   // console.log("Helo");
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
   const speed = document.getElementById("speed");
   out.innerText = "Finding substring...";
   underline[0].innerHTML = "";
@@ -67,14 +74,31 @@ brute.addEventListener("click", async () => {
       out.innerText = "Substring Found";
       break;
     }
+
+
     underline[0].innerHTML = "";
     underline[1].innerHTML = "";
     console.log(underline[0].innerText);
     ptr1 = tempptr;
+    
+    if (ptr1 === mainstr.length - substr.length + 1 && !flag) {
+      out.innerText = "Substring not found...";
+    }
   }
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = "pointer";
+    btn.style.opacity = "1";
+  });
 });
 
 kmp.addEventListener("click", async () => {
+  out.innerText = "Finding substring...";
+  btnmode.forEach(function (btn) {
+    btn.disabled = true;
+    btn.style.curor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
   underline[0].innerHTML = "";
   underline[1].innerHTML = "";
   dislps.innerHTML = "";
@@ -128,10 +152,10 @@ kmp.addEventListener("click", async () => {
         console.log(typeof underline[0].innerHTML);
         underline[0].innerHTML = "";
         for (j = 0; j < p1 - p2; j++) {
-          underline[0].innerHTML+= "&nbsp";
+          underline[0].innerHTML += "&nbsp";
         }
-        for(k=0;k<p2;k++){
-          underline[0].innerHTML+="_";
+        for (k = 0; k < p2; k++) {
+          underline[0].innerHTML += "_";
         }
       }
     }
@@ -140,10 +164,17 @@ kmp.addEventListener("click", async () => {
   }
   if (p2 === substr.length) {
     console.log("Substring found");
-    out.innerText="Substring Found...";
+    out.innerText = "Substring Found...";
   } else {
     console.log("Substring not found...");
-    out.innerText="Substring not found...";
-
+    out.innerText = "Substring not found...";
   }
+  btnmode.forEach(function (btn) {
+    btn.disabled = false;
+    btn.style.cursor = true;
+    btn.style.opacity = "1";
+  });
 });
+
+// ABABDABACDABABCABAB
+// ABABCABAB
